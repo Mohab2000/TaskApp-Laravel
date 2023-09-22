@@ -14,8 +14,15 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        return new TaskCollection(Task::all());
+
+
+        return (new TaskCollection(Task::paginate()))
+            ->additional([
+                'custom_key' => 'hiiiiiiiii',
+                'another_key' => 'another_value',
+            ]);
     }
+
 
     public function show(Request $request, Task $task)
     {
