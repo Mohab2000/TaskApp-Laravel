@@ -8,6 +8,8 @@ use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -15,12 +17,12 @@ class TaskController extends Controller
     public function index(Request $request)
     {
 
+        $task = QueryBuilder::for(Task::class)
+            ->allowedFilters('is_done')
+            ->defaultSort('created_at')
+            ->paginate();
 
-        return (new TaskCollection(Task::paginate()))
-            ->additional([
-                'custom_key' => 'hiiiiiiiii',
-                'another_key' => 'another_value',
-            ]);
+        return (new TaskCollection($task));
     }
 
 
